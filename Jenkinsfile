@@ -13,6 +13,14 @@ pipeline {
                 sh 'npm test'
             }
         }
+        stage('Security Scan') {
+            steps {
+                withCredentials([string(credentialsId: 'snyk-token', variable: 'SNYK_TOKEN')]) {
+                    sh 'npm install -g snyk'
+                    sh 'snyk test'
+                }
+            }
+        }
         stage('Deploy') {
             steps {
                 echo 'Deploying...'
@@ -20,3 +28,4 @@ pipeline {
         }
     }
 }
+
