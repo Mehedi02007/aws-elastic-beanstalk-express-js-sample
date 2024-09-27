@@ -16,7 +16,8 @@ pipeline {
         stage('Security Scan') {
             steps {
                 withCredentials([string(credentialsId: 'snyk-token', variable: 'SNYK_TOKEN')]) {
-                    sh 'npm install -g snyk'
+                    // Install Snyk using the --unsafe-perm flag to avoid permission issues
+                    sh 'npm install -g snyk --unsafe-perm'
                     sh 'snyk test'
                 }
             }
@@ -28,4 +29,3 @@ pipeline {
         }
     }
 }
-
